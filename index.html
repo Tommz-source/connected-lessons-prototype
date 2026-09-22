@@ -1,0 +1,1570 @@
+<title>Connected Lessons</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    --bg:             #f0f0ee;
+    --card:           #ffffff;
+    --sidebar-bg:     #ffffff;
+    --border:         #e2e1df;
+    --border-subtle:  #ececea;
+    --text:           #1c1c1a;
+    --text-muted:     #6b6968;
+    --text-subtle:    #9a9896;
+
+    --green-head:     #1b5928;
+    --green-nav:      #2c7d3e;
+    --green-bg:       #e8f0ea;
+
+    --purple-bg:      #eceaf6;
+    --purple-text:    #4e3aaa;
+
+    /* Connection amber */
+    --con-bg:         #fffaed;
+    --con-border:     #d9b84a;
+    --con-text:       #6b4d00;
+    --con-count-bg:   #f0d060;
+
+    /* Method accent — Nieuw Nederlands Junior Lezen (orange) */
+    --m1-bg:    #fff2e6;
+    --m1-text:  #a34200;
+    --m1-btn:   #c84800;
+
+    /* Method accent — Plein Junior (green, same family as platform) */
+    --m2-bg:    #e8f0ea;
+    --m2-text:  #1b5928;
+    --m2-btn:   #2c7d3e;
+
+    /* Method accent — Naut (rust) */
+    --m3-bg:    #fef0e6;
+    --m3-text:  #8c3200;
+    --m3-btn:   #b84210;
+
+    --panel-w:  420px;
+    --r-sm:     6px;
+    --r-md:     10px;
+
+    --shadow-panel: -6px 0 32px rgba(0,0,0,0.09);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:            #18181a;
+      --card:          #222224;
+      --sidebar-bg:    #1c1c1e;
+      --border:        #36363a;
+      --border-subtle: #2c2c30;
+      --text:          #f0efec;
+      --text-muted:    #9a9896;
+      --text-subtle:   #6a6a68;
+
+      --green-head:    #5cc470;
+      --green-nav:     #4aad60;
+      --green-bg:      #1a2e20;
+
+      --purple-bg:     #252040;
+      --purple-text:   #9d8ee0;
+
+      --con-bg:        #221e0a;
+      --con-border:    #7a6a20;
+      --con-text:      #d4b030;
+      --con-count-bg:  #5a4c10;
+
+      --m1-bg:   #2a1600;
+      --m1-text: #e07040;
+      --m1-btn:  #c86030;
+      --m2-bg:   #1a2e20;
+      --m2-text: #5cc470;
+      --m2-btn:  #4aad60;
+      --m3-bg:   #10203a;
+      --m3-text: #5090e0;
+      --m3-btn:  #3a80d8;
+
+      --shadow-panel: -6px 0 32px rgba(0,0,0,0.4);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:            #18181a;
+    --card:          #222224;
+    --sidebar-bg:    #1c1c1e;
+    --border:        #36363a;
+    --border-subtle: #2c2c30;
+    --text:          #f0efec;
+    --text-muted:    #9a9896;
+    --text-subtle:   #6a6a68;
+    --green-head:    #5cc470;
+    --green-nav:     #4aad60;
+    --green-bg:      #1a2e20;
+    --purple-bg:     #252040;
+    --purple-text:   #9d8ee0;
+    --con-bg:        #221e0a;
+    --con-border:    #7a6a20;
+    --con-text:      #d4b030;
+    --con-count-bg:  #5a4c10;
+    --m1-bg: #2a1600; --m1-text: #e07040; --m1-btn: #c86030;
+    --m2-bg: #1a2e20; --m2-text: #5cc470; --m2-btn: #4aad60;
+    --m3-bg: #10203a; --m3-text: #5090e0; --m3-btn: #3a80d8;
+    --shadow-panel: -6px 0 32px rgba(0,0,0,0.4);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ─── App shell ─── */
+  .app {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* ─── Sidebar ─── */
+  .sidebar {
+    width: 188px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding-block: 0;
+  }
+
+  .sb-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 16px 14px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .sb-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--green-nav);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .sb-nav { list-style: none; flex: 1; }
+
+  .sb-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 16px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 2px solid transparent;
+    transition: background 0.12s, color 0.12s;
+  }
+
+  .sb-nav li a:hover { background: var(--green-bg); color: var(--text); }
+  .sb-nav li a:focus-visible { outline: 2px solid var(--green-nav); outline-offset: -2px; }
+
+  .sb-nav li a.active {
+    color: var(--green-nav);
+    border-left-color: var(--green-nav);
+    background: var(--green-bg);
+  }
+
+  .sb-nav li a svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  .sb-foot {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-subtle);
+    cursor: pointer;
+  }
+
+  /* ─── Main ─── */
+  .main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ─── Topnav ─── */
+  .topnav {
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .breadcrumb a { color: var(--text-muted); text-decoration: none; white-space: nowrap; }
+  .breadcrumb a:hover { color: var(--text); }
+  .breadcrumb .sep { color: var(--text-subtle); flex-shrink: 0; }
+  .breadcrumb .cur { color: var(--text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+
+  .topnav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .search-pill {
+    display: flex; align-items: center; gap: 7px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 5px 12px;
+    font-size: 12.5px;
+    color: var(--text-subtle);
+    width: 160px;
+    cursor: text;
+  }
+
+  .group-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--green-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--green-nav);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ─── Content area ─── */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 28px 52px;
+  }
+
+  /* ─── Lesson heading ─── */
+  .lesson-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 0 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  h1.lesson-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green-head);
+    text-wrap: balance;
+    line-height: 1.25;
+    padding-bottom: 12px;
+  }
+
+  .arrow-group {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+
+  .arrow-btn {
+    width: 30px; height: 30px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: background 0.12s;
+  }
+
+  .arrow-btn:hover { background: var(--bg); }
+  .arrow-btn:focus-visible { outline: 2px solid var(--green-nav); }
+
+  /* ─── Tab row ─── */
+  .tab-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 0 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 13px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    border-radius: var(--r-sm);
+    font-size: 13px; font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.12s;
+  }
+
+  .tab-btn:hover { background: var(--bg); }
+  .tab-btn:focus-visible { outline: 2px solid var(--green-nav); }
+  .tab-btn svg { width: 14px; height: 14px; color: var(--text-muted); }
+
+  .tab-divider {
+    width: 1px; height: 18px;
+    background: var(--border);
+    margin: 0 2px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Connection trigger ─── */
+  .con-trigger {
+    display: flex; align-items: center; gap: 7px;
+    padding: 6px 12px;
+    border: 1.5px solid var(--con-border);
+    background: var(--con-bg);
+    border-radius: var(--r-sm);
+    font-size: 13px; font-weight: 500;
+    color: var(--con-text);
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+  }
+
+  .con-trigger:hover { filter: brightness(0.97); }
+  .con-trigger:focus-visible { outline: 2px solid var(--con-border); outline-offset: 2px; }
+  .con-trigger svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .con-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #3b82f6;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.18);
+  }
+
+  .con-trigger--empty {
+    opacity: 0.45;
+    cursor: not-allowed;
+    border-color: var(--border);
+    background: var(--bg);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  /* ─── Section cards ─── */
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    margin-top: 16px;
+    overflow: hidden;
+  }
+
+  .sec-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .sec-head-left {
+    display: flex; align-items: center; gap: 9px;
+    font-weight: 600; font-size: 14.5px;
+    color: var(--green-head);
+  }
+
+  .sec-head-left svg { width: 18px; height: 18px; }
+  .sec-chevron { width: 18px; height: 18px; color: var(--text-muted); }
+
+  .sec-body { border-top: 1px solid var(--border); }
+
+  .inner-tabs {
+    display: flex; gap: 4px;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .in-tab {
+    padding: 5px 13px;
+    font-size: 13px; font-weight: 500;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    transition: background 0.12s;
+  }
+
+  .in-tab.active {
+    background: var(--bg);
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  /* ─── Overview table ─── */
+  .ov-table { width: 100%; border-collapse: collapse; }
+
+  .ov-table td {
+    padding: 9px 18px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .ov-table tr:last-child td { border-bottom: none; }
+
+  .ov-table td.row-label {
+    width: 170px;
+    font-weight: 600;
+    color: var(--purple-text);
+  }
+
+  .ov-table tr.hl td {
+    background: var(--purple-bg);
+  }
+
+  .open-page-link {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 13px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .open-page-link:hover { background: var(--border); color: var(--text); }
+  .open-page-link svg { width: 13px; height: 13px; }
+
+  /* ─── Lesoverzicht ─── */
+  .lov-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0 10px;
+  }
+
+  .lov-title { font-size: 15px; font-weight: 600; color: var(--text); }
+
+  .new-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 13px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    border-radius: var(--r-sm);
+    font-size: 13px; font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+
+  .new-btn:hover { background: var(--bg); }
+  .new-btn svg { width: 13px; height: 13px; }
+
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+  }
+
+  .lesson-tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .lesson-tile:hover { border-color: var(--green-nav); }
+
+  .tile-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--green-bg) 0%, #b8d8c0 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+  }
+
+  .tile-body { padding: 9px 12px 11px; }
+  .tile-body p { font-size: 12.5px; font-weight: 600; color: var(--text); }
+  .tile-body .tile-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 2px; }
+
+  .tile-img--thumb, .tile-img--blank {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tile--editable .tile-img { background: var(--bg); }
+
+  .tile-edit-btn {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 28px; height: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.12s;
+  }
+
+  .tile-edit-btn:hover { background: var(--bg); color: var(--text); }
+
+  /* ═══════════════════════════════
+     SIDE PANEL
+  ═══════════════════════════════ */
+
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+
+  .overlay.on { opacity: 1; pointer-events: auto; }
+
+  .panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: var(--panel-w);
+    max-width: calc(100vw - 40px);
+    background: var(--card);
+    border-left: 1px solid var(--border);
+    z-index: 101;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .panel.open { transform: translateX(0); }
+
+  /* Panel header */
+  .panel-head {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .panel-head-inner { flex: 1; }
+
+  .panel-title {
+    font-size: 15px; font-weight: 700;
+    color: var(--text);
+  }
+
+  .panel-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .close-btn {
+    width: 28px; height: 28px;
+    flex-shrink: 0; margin-left: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.12s;
+  }
+
+  .close-btn:hover { background: var(--border); color: var(--text); }
+  .close-btn:focus-visible { outline: 2px solid var(--green-nav); }
+  .close-btn svg { width: 14px; height: 14px; }
+
+  /* Current lesson context strip */
+  .panel-ctx {
+    padding: 12px 20px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .ctx-label {
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-subtle);
+    margin-bottom: 3px;
+  }
+
+  .ctx-lesson { font-size: 13px; font-weight: 600; color: var(--text); }
+  .ctx-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+
+  /* Panel scroll body */
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+  }
+
+  .panel-group-label {
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-subtle);
+    margin-bottom: 12px;
+  }
+
+  /* ─── Connected lesson card ─── */
+  .conn-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px 15px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+
+  /* Method chip */
+  .method-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    border-radius: 20px;
+    padding: 3px 9px;
+    margin-bottom: 9px;
+  }
+
+  .method-chip .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+  }
+
+  /* Method variants */
+  .m1 { background: var(--m1-bg); color: var(--m1-text); }
+  .m1 .dot { background: var(--m1-text); }
+
+  .m2 { background: var(--m2-bg); color: var(--m2-text); }
+  .m2 .dot { background: var(--m2-text); }
+
+  .m3 { background: var(--m3-bg); color: var(--m3-text); }
+  .m3 .dot { background: var(--m3-text); }
+
+  .conn-card:has(.m2) { border-color: color-mix(in srgb, var(--m2-btn) 20%, transparent); }
+  .conn-card:has(.m2):hover { border-color: color-mix(in srgb, var(--m2-btn) 50%, transparent); }
+  .conn-card:has(.m3) { border-color: color-mix(in srgb, var(--m3-btn) 20%, transparent); }
+  .conn-card:has(.m3):hover { border-color: color-mix(in srgb, var(--m3-btn) 50%, transparent); }
+  .conn-card:has(.m1):hover { border-color: color-mix(in srgb, var(--m1-btn) 50%, transparent); }
+
+  .conn-lesson-title {
+    font-size: 13.5px; font-weight: 600;
+    color: var(--text);
+    margin-bottom: 5px;
+    text-wrap: balance;
+  }
+
+  .conn-meta {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .meta-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--text-muted);
+  }
+
+  .conn-footer {
+    display: flex; align-items: center; justify-content: flex-end;
+  }
+
+  /* Open-in-tab button */
+  .open-tab-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 6px 11px;
+    border-radius: var(--r-sm);
+    font-size: 12px; font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.12s;
+    border: 1.5px solid;
+  }
+
+  .open-tab-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .open-tab-btn svg { width: 11px; height: 11px; }
+
+  .ob-m1 { color: var(--m1-btn); border-color: var(--m1-btn); }
+  .ob-m1:hover { background: var(--m1-bg); }
+  .ob-m2 { color: var(--m2-btn); border-color: var(--m2-btn); }
+  .ob-m2:hover { background: var(--m2-bg); }
+  .ob-m3 { color: var(--m3-btn); border-color: var(--m3-btn); }
+  .ob-m3:hover { background: var(--m3-bg); }
+
+  /* ─── Deactivated (no license) card ─── */
+  .conn-card--deactivated {
+    opacity: 0.6;
+    pointer-events: none;
+    filter: saturate(0);
+  }
+
+  .deactivated-label {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 500;
+    color: var(--text-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 4px 9px;
+  }
+
+  .deactivated-label svg { width: 11px; height: 11px; }
+
+  /* ─── Connection visualization ─── */
+  .conn-viz {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px 14px 12px;
+    margin-bottom: 14px;
+  }
+
+  .conn-type-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--con-bg);
+    border: 1px solid var(--con-border);
+    color: var(--con-text);
+    border-radius: 20px;
+    padding: 3px 9px;
+    margin-bottom: 14px;
+  }
+
+  .conn-type-chip svg { width: 11px; height: 11px; }
+
+  .conn-diagram {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    position: relative;
+    padding-top: 46px;
+    margin-bottom: 12px;
+  }
+
+  .conn-arc-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 50px;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .viz-card { flex: 1; min-width: 0; }
+
+  .viz-thumb {
+    width: 100%;
+    border-radius: var(--r-sm);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    display: block;
+    line-height: 0;
+  }
+
+  .viz-thumb svg { width: 100%; height: auto; display: block; }
+
+  .viz-meta { padding-top: 5px; }
+
+  .viz-method-name {
+    font-size: 11.5px; font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .viz-lesson-id { font-size: 11px; color: var(--text-muted); }
+
+  .viz-node-col {
+    flex-shrink: 0;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding-bottom: 22px;
+  }
+
+  .viz-node-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1.5px solid var(--con-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--con-text);
+  }
+
+  .viz-node-circle svg { width: 18px; height: 18px; }
+
+  .viz-node-lbl {
+    font-size: 8.5px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--text-subtle);
+    text-align: center;
+  }
+
+  .conn-rationale {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 10px;
+  }
+
+  /* Panel footer note */
+  .panel-foot {
+    flex-shrink: 0;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 11.5px;
+    color: var(--text-subtle);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ─── Panel category switch ─── */
+  .panel-cat {
+    flex-shrink: 0;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  .cat-switch {
+    display: flex;
+    gap: 3px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 3px;
+  }
+
+  .cat-opt {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 6px 8px;
+    border: none; background: transparent;
+    border-radius: calc(var(--r-sm) - 2px);
+    font-size: 12px; font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background 0.14s, color 0.14s;
+    white-space: nowrap;
+  }
+
+  .cat-opt.active {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.09);
+  }
+
+  .cat-count {
+    font-size: 10.5px; font-weight: 600;
+    color: var(--text-subtle);
+    background: var(--border-subtle);
+    border-radius: 20px;
+    padding: 1px 6px;
+    line-height: 1.6;
+  }
+
+  /* ─── Group headings + section dividers ─── */
+  .group-head {
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-subtle);
+    margin: 14px 0 8px;
+  }
+
+  .group-head:first-child { margin-top: 4px; }
+
+  .unavail-divider {
+    display: flex; align-items: center; gap: 8px;
+    margin: 18px 0 14px;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-subtle);
+    white-space: nowrap;
+  }
+
+  .unavail-divider::before, .unavail-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .content, .topnav { padding-inline: 16px; }
+    .topnav { padding-inline: 16px; }
+    .panel { --panel-w: 100vw; max-width: 100vw; }
+    .topnav-right .search-pill { display: none; }
+    .breadcrumb .hide-mobile { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel, .overlay { transition: none; }
+  }
+</style>
+
+<div class="app">
+
+  <!-- ─── Sidebar ─── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sb-user">
+      <div class="sb-avatar">T</div>
+      Tommaso
+    </div>
+
+    <ul class="sb-nav">
+      <li>
+        <a href="#">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+          Home
+        </a>
+      </li>
+      <li>
+        <a href="#" class="active">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>
+          Lessons & tests
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+          Task planner
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+          Class overview
+        </a>
+      </li>
+    </ul>
+
+    <div class="sb-foot">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+      Help
+    </div>
+  </aside>
+
+  <!-- ─── Main ─── -->
+  <main class="main">
+
+    <!-- Top nav -->
+    <nav class="topnav" aria-label="Breadcrumb">
+      <div class="breadcrumb">
+        <a href="#" aria-label="Back">←</a>
+        <span class="sep">/</span>
+        <a href="#" class="hide-mobile">Lesson materials</a>
+        <span class="sep hide-mobile">/</span>
+        <a href="#" class="hide-mobile">Plein Junior Year 5</a>
+        <span class="sep hide-mobile">/</span>
+        <a href="#" class="hide-mobile">Theme 4: Energy</a>
+        <span class="sep hide-mobile">/</span>
+        <span class="cur">Lesson 2: Energy in, energy out</span>
+      </div>
+      <div class="topnav-right">
+        <div class="search-pill" role="search" aria-label="Search">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+          Search
+        </div>
+        <div class="group-pill">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+          Class 5A <span style="font-weight:400;color:var(--text-muted)">Platform T... ▾</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Scrollable content -->
+    <div class="content">
+
+      <!-- Lesson title + arrows -->
+      <div class="lesson-heading">
+        <h1 class="lesson-title">Lesson 2: Energy in, energy out</h1>
+        <div class="arrow-group">
+          <button class="arrow-btn" aria-label="Previous lesson">←</button>
+          <button class="arrow-btn" aria-label="Next lesson">→</button>
+        </div>
+      </div>
+
+      <!-- Tab row with connection trigger -->
+      <div class="tab-row">
+        <a href="#" class="tab-btn">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>
+          Board book
+        </a>
+        <a href="#" class="tab-btn">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/></svg>
+          Lesson
+        </a>
+
+        <div class="tab-divider" aria-hidden="true"></div>
+
+        <!-- ✦ New feature: connected lessons trigger -->
+        <button
+          class="con-trigger"
+          id="conBtn"
+          onclick="openPanel()"
+          aria-expanded="false"
+          aria-controls="sidePanel"
+          aria-haspopup="dialog"
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"/>
+          </svg>
+          Connected lessons
+          <span class="con-dot" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Lesson preparation card -->
+      <div class="section-card">
+        <div class="sec-head" role="button" tabindex="0" aria-expanded="true">
+          <div class="sec-head-left">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8l4-2 4 2V6z" clip-rule="evenodd"/></svg>
+            Lesson preparation
+          </div>
+          <svg class="sec-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+
+        <div class="sec-body">
+          <div class="inner-tabs">
+            <div class="in-tab active">About this lesson</div>
+            <div class="in-tab">Downloads</div>
+          </div>
+
+          <div style="padding: 10px 18px 8px; font-size: 12.5px; color: var(--text-muted); font-weight: 500;">Lesson at a glance</div>
+
+          <table class="ov-table">
+            <tr class="hl">
+              <td class="row-label">Preparation</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="row-label">Warm-up</td>
+              <td>Have students indicate their hub preference.</td>
+            </tr>
+            <tr>
+              <td class="row-label">Instruction</td>
+              <td>Explain energy conversion using a bicycle as an example.</td>
+            </tr>
+            <tr>
+              <td class="row-label">Practice</td>
+              <td>Students complete exercises 1-4 in the workbook.</td>
+            </tr>
+            <tr>
+              <td class="row-label">Wrap-up</td>
+              <td>Review answers with the class.</td>
+            </tr>
+          </table>
+
+          <a href="#" class="open-page-link">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+            Open page
+          </a>
+        </div>
+      </div>
+
+      <!-- Lesson overview -->
+      <div>
+        <div class="lov-header">
+          <div class="lov-title">Lesson overview</div>
+          <button class="new-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+            New board lesson
+          </button>
+        </div>
+
+        <div class="lesson-grid">
+          <!-- Card 1: thumbnail with page range label -->
+          <div class="lesson-tile">
+            <div class="tile-img tile-img--thumb">
+              <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="160" height="120" fill="#c8dfd0"/>
+                <rect x="12" y="12" width="136" height="96" rx="4" fill="white" opacity="0.7"/>
+                <rect x="20" y="20" width="80" height="8" rx="2" fill="#2c7d3e" opacity="0.5"/>
+                <rect x="20" y="34" width="120" height="4" rx="2" fill="#aaa" opacity="0.4"/>
+                <rect x="20" y="42" width="100" height="4" rx="2" fill="#aaa" opacity="0.3"/>
+                <rect x="20" y="54" width="56" height="40" rx="3" fill="#2c7d3e" opacity="0.25"/>
+                <rect x="84" y="54" width="56" height="40" rx="3" fill="#2c7d3e" opacity="0.15"/>
+                <rect x="20" y="100" width="40" height="3" rx="1" fill="#aaa" opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="tile-body">
+              <p class="tile-label">pp. 62-65</p>
+              <p>Year 5 Theme 3-4</p>
+            </div>
+          </div>
+
+          <!-- Card 2: blank draft with edit button -->
+          <div class="lesson-tile tile--editable">
+            <div class="tile-img tile-img--blank">
+              <svg viewBox="0 0 160 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                <rect width="160" height="120" fill="#f4f4f2"/>
+                <rect x="12" y="12" width="136" height="96" rx="4" fill="white" opacity="0.8"/>
+                <rect x="20" y="22" width="60" height="5" rx="2" fill="#ccc"/>
+                <rect x="20" y="33" width="100" height="3" rx="2" fill="#ddd"/>
+                <rect x="20" y="41" width="80" height="3" rx="2" fill="#ddd"/>
+                <rect x="20" y="49" width="90" height="3" rx="2" fill="#ddd"/>
+                <rect x="20" y="62" width="40" height="3" rx="2" fill="#ddd"/>
+                <rect x="20" y="70" width="60" height="3" rx="2" fill="#ddd"/>
+              </svg>
+              <button class="tile-edit-btn" aria-label="Edit slide deck">
+                <svg viewBox="0 0 20 20" fill="currentColor" style="width:14px;height:14px"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+              </button>
+            </div>
+            <div class="tile-body">
+              <p class="tile-label">11 items</p>
+              <p>Slide deck</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════
+     SIDE PANEL
+═══════════════════════════════════ -->
+
+<div class="overlay" id="overlay" onclick="closePanel()"></div>
+
+<aside
+  class="panel"
+  id="sidePanel"
+  role="dialog"
+  aria-label="Connected lessons"
+  aria-modal="true"
+  tabindex="-1"
+>
+  <!-- Header -->
+  <div class="panel-head">
+    <div class="panel-head-inner">
+      <div class="panel-title">Connected lessons</div>
+      <div class="panel-desc">Lessons on the same topic from other curricula</div>
+    </div>
+    <button class="close-btn" onclick="closePanel()" aria-label="Close panel">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+    </button>
+  </div>
+
+  <!-- Current lesson context -->
+  <div class="panel-ctx">
+    <div class="ctx-label">Current lesson</div>
+    <div class="ctx-lesson">Lesson 2: Energy in, energy out</div>
+    <div class="ctx-sub">Plein Junior · Year 5 · Theme 4: Energy</div>
+  </div>
+
+  <!-- Category switch -->
+  <div class="panel-cat">
+    <div class="cat-switch" role="group" aria-label="Group connections by">
+      <button class="cat-opt active" id="catTopics" onclick="setGroup('topics')" aria-pressed="true">
+        By topics
+        <span class="cat-count" id="countTopics">3</span>
+      </button>
+      <button class="cat-opt" id="catGoals" onclick="setGroup('goals')" aria-pressed="false">
+        By learning goals
+        <span class="cat-count" id="countGoals">4</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Scrollable list -->
+  <div class="panel-body">
+    <!-- ✦ Connection diagram -->
+    <div class="conn-viz">
+      <div>
+        <span class="conn-type-chip">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+          Cross-curricular depth
+        </span>
+      </div>
+
+      <div class="conn-diagram">
+        <!-- Curved arc SVG — drawn over the two cards -->
+        <svg class="conn-arc-svg" viewBox="0 0 308 50" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <polygon points="0 0, 7 3.5, 0 7" fill="#d9b84a"/>
+            </marker>
+          </defs>
+          <!-- Arc from card 1 (left) to card 2 (right) -->
+          <path d="M 60 46 C 60 6, 248 6, 248 46"
+            stroke="#d9b84a" fill="none" stroke-width="1.5"
+            marker-end="url(#arrowhead)"/>
+          <!-- Sequence badge 1 (NNJ — read first) -->
+          <circle cx="34" cy="40" r="10" fill="#f0d060" opacity="0.55"/>
+          <text x="34" y="45" text-anchor="middle" font-size="11" font-weight="700" fill="#6b4d00" font-family="Inter, sans-serif">1</text>
+          <!-- Sequence badge 2 (Plein Junior — deepens after) -->
+          <circle cx="274" cy="40" r="10" fill="#f0d060" opacity="0.55"/>
+          <text x="274" y="45" text-anchor="middle" font-size="11" font-weight="700" fill="#6b4d00" font-family="Inter, sans-serif">2</text>
+        </svg>
+
+        <!-- Card: Nieuw Nederlands Junior Lezen -->
+        <div class="viz-card">
+          <div class="viz-thumb">
+            <svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+              <!-- Page background -->
+              <rect width="130" height="100" fill="#fff"/>
+              <!-- Top header band: orange left, teal right -->
+              <rect x="0" y="0" width="46" height="16" fill="#e07030"/>
+              <rect x="46" y="0" width="84" height="16" fill="#2a7080"/>
+              <!-- Thema 4 badge (orange section) -->
+              <rect x="2" y="3" width="22" height="7" rx="1.5" fill="#fff" opacity="0.25"/>
+              <rect x="25" y="3" width="18" height="7" rx="1.5" fill="#fff" opacity="0.25"/>
+              <!-- "De oplossing!" title in teal section -->
+              <rect x="48" y="4" width="54" height="4" rx="1" fill="#fff" opacity="0.7"/>
+              <!-- "Speurlezen" label -->
+              <rect x="48" y="10" width="30" height="3" rx="1" fill="#fff" opacity="0.45"/>
+              <!-- Leesdoel strip (green) -->
+              <rect x="0" y="18" width="130" height="14" fill="#e8f5ea"/>
+              <circle cx="6" cy="22" r="1.5" fill="#2c7d3e" opacity="0.7"/>
+              <rect x="10" y="20" width="90" height="3" rx="1" fill="#2c7d3e" opacity="0.5"/>
+              <circle cx="6" cy="28" r="1.5" fill="#2c7d3e" opacity="0.7"/>
+              <rect x="10" y="26" width="76" height="3" rx="1" fill="#2c7d3e" opacity="0.4"/>
+              <!-- Book cover (left col) -->
+              <rect x="2" y="35" width="26" height="36" rx="1" fill="#4a7a5a" opacity="0.6"/>
+              <rect x="4" y="37" width="22" height="14" rx="1" fill="#6a9a7a" opacity="0.5"/>
+              <rect x="4" y="53" width="22" height="3" rx="1" fill="#fff" opacity="0.25"/>
+              <rect x="4" y="58" width="16" height="2" rx="1" fill="#fff" opacity="0.2"/>
+              <rect x="4" y="62" width="14" height="2" rx="1" fill="#fff" opacity="0.2"/>
+              <!-- Article heading -->
+              <rect x="32" y="35" width="88" height="5" rx="1" fill="#222" opacity="0.55"/>
+              <rect x="32" y="42" width="68" height="5" rx="1" fill="#222" opacity="0.5"/>
+              <!-- Body text -->
+              <rect x="32" y="52" width="90" height="2.5" rx="1" fill="#888" opacity="0.4"/>
+              <rect x="32" y="57" width="84" height="2.5" rx="1" fill="#888" opacity="0.35"/>
+              <rect x="32" y="62" width="90" height="2.5" rx="1" fill="#888" opacity="0.35"/>
+              <rect x="32" y="67" width="70" height="2.5" rx="1" fill="#888" opacity="0.3"/>
+              <!-- Second text block (full width) -->
+              <rect x="2" y="74" width="118" height="2.5" rx="1" fill="#888" opacity="0.3"/>
+              <rect x="2" y="79" width="110" height="2.5" rx="1" fill="#888" opacity="0.28"/>
+              <!-- Windmill illustration (bottom right) -->
+              <line x1="118" y1="78" x2="118" y2="92" stroke="#aaa" stroke-width="1.2" opacity="0.5"/>
+              <circle cx="118" cy="78" r="1" fill="#aaa" opacity="0.5"/>
+              <line x1="118" y1="78" x2="118" y2="72" stroke="#aaa" stroke-width="1" opacity="0.4"/>
+              <line x1="118" y1="78" x2="123" y2="82" stroke="#aaa" stroke-width="1" opacity="0.4"/>
+              <line x1="118" y1="78" x2="113" y2="82" stroke="#aaa" stroke-width="1" opacity="0.4"/>
+              <!-- Footer -->
+              <rect x="0" y="93" width="130" height="7" fill="#e07030" opacity="0.12"/>
+              <rect x="2" y="94" width="70" height="3" rx="1" fill="#888" opacity="0.3"/>
+              <rect x="120" y="94" width="8" height="3" rx="1" fill="#888" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="viz-meta">
+            <div class="viz-method-name" style="color:var(--m1-btn)">NNJ Lezen</div>
+            <div class="viz-lesson-id">Lesson 2 · pp. 8-13</div>
+          </div>
+        </div>
+
+        <!-- Center node -->
+        <div class="viz-node-col">
+          <div class="viz-node-circle">
+            <!-- Wind turbine icon -->
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="10" cy="8" r="1.5" fill="currentColor" stroke="none"/>
+              <line x1="10" y1="8" x2="10" y2="18"/>
+              <line x1="10" y1="8" x2="10" y2="1"/>
+              <line x1="10" y1="8" x2="16" y2="12"/>
+              <line x1="10" y1="8" x2="4" y2="12"/>
+            </svg>
+          </div>
+          <div class="viz-node-lbl">Depth</div>
+        </div>
+
+        <!-- Card: Plein Junior -->
+        <div class="viz-card">
+          <div class="viz-thumb">
+            <svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+              <!-- Page background -->
+              <rect width="130" height="100" fill="#fff"/>
+              <!-- Green header -->
+              <rect x="0" y="0" width="130" height="16" fill="#2c7d3e"/>
+              <rect x="2" y="3" width="22" height="7" rx="1.5" fill="#fff" opacity="0.3"/>
+              <rect x="26" y="3" width="18" height="7" rx="1.5" fill="#1b5928" opacity="0.5"/>
+              <rect x="50" y="4" width="60" height="4" rx="1" fill="#fff" opacity="0.7"/>
+              <rect x="50" y="10" width="36" height="3" rx="1" fill="#fff" opacity="0.4"/>
+              <!-- Image area (windmill photo) -->
+              <rect x="0" y="18" width="66" height="52" fill="#c8dfd0"/>
+              <!-- Windmill in image -->
+              <line x1="28" y1="38" x2="28" y2="66" stroke="#3a8a50" stroke-width="2" opacity="0.6"/>
+              <circle cx="28" cy="38" r="2" fill="#2c7d3e" opacity="0.7"/>
+              <line x1="28" y1="38" x2="28" y2="28" stroke="#2c7d3e" stroke-width="1.5" opacity="0.6"/>
+              <line x1="28" y1="38" x2="37" y2="44" stroke="#2c7d3e" stroke-width="1.5" opacity="0.6"/>
+              <line x1="28" y1="38" x2="19" y2="44" stroke="#2c7d3e" stroke-width="1.5" opacity="0.6"/>
+              <!-- Sea/ground line -->
+              <rect x="0" y="60" width="66" height="10" fill="#a8c8b8" opacity="0.5"/>
+              <!-- Page num on photo -->
+              <rect x="2" y="64" width="22" height="4" rx="1" fill="#2c7d3e" opacity="0.5"/>
+              <!-- Right column text -->
+              <rect x="70" y="20" width="56" height="5" rx="1" fill="#222" opacity="0.55"/>
+              <rect x="70" y="27" width="50" height="5" rx="1" fill="#222" opacity="0.5"/>
+              <rect x="70" y="36" width="56" height="2.5" rx="1" fill="#888" opacity="0.38"/>
+              <rect x="70" y="41" width="50" height="2.5" rx="1" fill="#888" opacity="0.33"/>
+              <rect x="70" y="46" width="56" height="2.5" rx="1" fill="#888" opacity="0.33"/>
+              <rect x="70" y="51" width="44" height="2.5" rx="1" fill="#888" opacity="0.28"/>
+              <rect x="70" y="57" width="52" height="2.5" rx="1" fill="#888" opacity="0.28"/>
+              <!-- Full-width text below -->
+              <rect x="2" y="74" width="120" height="2.5" rx="1" fill="#888" opacity="0.28"/>
+              <rect x="2" y="79" width="110" height="2.5" rx="1" fill="#888" opacity="0.25"/>
+              <rect x="2" y="84" width="118" height="2.5" rx="1" fill="#888" opacity="0.25"/>
+              <!-- Footer -->
+              <rect x="0" y="93" width="130" height="7" fill="#2c7d3e" opacity="0.1"/>
+              <rect x="2" y="94" width="80" height="3" rx="1" fill="#888" opacity="0.3"/>
+              <rect x="116" y="94" width="12" height="3" rx="1" fill="#888" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="viz-meta">
+            <div class="viz-method-name" style="color:var(--m2-btn)">Plein Junior</div>
+            <div class="viz-lesson-id">Lesson 3 · pp. 66-69</div>
+          </div>
+        </div>
+      </div><!-- /conn-diagram -->
+
+      <div class="conn-rationale">
+        Students first read about wind as an energy source (NNJ Lezen, lesson 2), then explore exactly how a wind turbine works (Plein Junior, lesson 3).
+      </div>
+    </div>
+
+    <!-- Dynamic cards rendered by JS -->
+    <div id="cardList"></div>
+
+  </div><!-- /panel-body -->
+
+  <div class="panel-foot">
+    Lessons open in a new tab. Your current lesson preparation stays open.
+  </div>
+</aside>
+
+<script>
+  /* ── Data model ── */
+  const CONNECTIONS = [
+    {
+      id: 'nnj-l2',
+      method: 'NNJ Lezen',
+      chipBg: 'var(--m1-bg)', chipText: 'var(--m1-text)',
+      btnColor: 'var(--m1-btn)', btnHoverBg: 'var(--m1-bg)',
+      lesson: 'Lesson 2: The solution!',
+      year: 'Year 5', theme: 'Theme 4: Energy',
+      href: 'nnj-lezen-lesson.html',
+      available: true,
+      topics: ['Wind energy'],
+      goals: ['Explain electricity generation', 'Practise reading strategies'],
+    },
+    {
+      id: 'blink-l5',
+      method: 'Blink',
+      chipBg: '#e6edf7', chipText: '#1e4d9a',
+      btnColor: '#2560b8', btnHoverBg: '#e6edf7',
+      lesson: 'Lesson 5: Energy sources worldwide',
+      year: 'Year 5', theme: 'Chapter 2: Our planet',
+      href: '#',
+      available: true,
+      topics: ['Renewable energy'],
+      goals: ['Compare energy sources'],
+    },
+    {
+      id: 'naut-l4',
+      method: 'Naut',
+      chipBg: 'var(--m3-bg)', chipText: 'var(--m3-text)',
+      btnColor: '', btnHoverBg: '',
+      lesson: 'Lesson 4: Generating your own electricity',
+      year: 'Year 5', theme: 'Theme 3: Energy',
+      href: null,
+      available: false,
+      topics: ['Wind energy'],
+      goals: ['Explain electricity generation'],
+    },
+    {
+      id: 'brandaan-l9',
+      method: 'Brandaan',
+      chipBg: '#f0ebe6', chipText: '#7a3500',
+      btnColor: '', btnHoverBg: '',
+      lesson: 'Lesson 9: The coal age',
+      year: 'Year 5', theme: 'Chapter 3: Industry',
+      href: null,
+      available: false,
+      topics: ['Fossil fuels'],
+      goals: ['Evaluate energy trade-offs'],
+    },
+    {
+      id: 'wnl-l3',
+      method: 'Wijzer door Natuur',
+      chipBg: '#e0f0ee', chipText: '#1a6050',
+      btnColor: '', btnHoverBg: '',
+      lesson: 'Lesson 3: Wind and water as energy',
+      year: 'Year 5', theme: 'Unit 2: Forces',
+      href: null,
+      available: false,
+      topics: ['Renewable energy'],
+      goals: ['Evaluate energy trade-offs', 'Compare energy sources'],
+    },
+  ];
+
+  /* ── Panel open/close ── */
+  const panel   = document.getElementById('sidePanel');
+  const overlay = document.getElementById('overlay');
+  const trigger = document.getElementById('conBtn');
+
+  function openPanel() {
+    overlay.classList.add('on');
+    panel.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    panel.focus();
+  }
+
+  function closePanel() {
+    overlay.classList.remove('on');
+    panel.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.focus();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+  });
+
+  /* ── Category switch ── */
+  let currentGroup = 'topics';
+
+  function setGroup(dim) {
+    currentGroup = dim;
+    document.getElementById('catTopics').classList.toggle('active', dim === 'topics');
+    document.getElementById('catTopics').setAttribute('aria-pressed', dim === 'topics');
+    document.getElementById('catGoals').classList.toggle('active', dim === 'goals');
+    document.getElementById('catGoals').setAttribute('aria-pressed', dim === 'goals');
+    renderCards(dim);
+  }
+
+  /* ── Count unique groups per dimension ── */
+  function countGroups(dim) {
+    const keys = new Set();
+    CONNECTIONS.forEach(c => (c[dim] || []).forEach(k => keys.add(k)));
+    return keys.size;
+  }
+
+  /* ── Card HTML builder ── */
+  const OPEN_ICON = '<svg viewBox="0 0 20 20" fill="currentColor" style="width:11px;height:11px"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>';
+  const LOCK_ICON = '<svg viewBox="0 0 20 20" fill="currentColor" style="width:11px;height:11px"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>';
+
+  function cardHtml(c) {
+    const chipStyle = `background:${c.chipBg};color:${c.chipText}`;
+    const dotStyle  = `background:${c.chipText}`;
+
+    const footer = c.available
+      ? `<a href="${c.href}" target="_blank" rel="noopener"
+            class="open-tab-btn"
+            style="color:${c.btnColor};border-color:${c.btnColor}"
+            onmouseover="this.style.background='${c.btnHoverBg}'"
+            onmouseout="this.style.background=''"
+            aria-label="Open ${c.lesson} from ${c.method} in new tab">
+           Open ${OPEN_ICON}
+         </a>`
+      : `<span class="deactivated-label">${LOCK_ICON} Not in your license</span>`;
+
+    const deactivated = c.available ? '' : ' conn-card--deactivated';
+
+    return `
+      <div class="conn-card${deactivated}">
+        <div class="method-chip" style="${chipStyle}">
+          <div class="dot" style="${dotStyle}"></div>
+          ${c.method}
+        </div>
+        <div class="conn-lesson-title">${c.lesson}</div>
+        <div class="conn-meta">
+          <span class="meta-chip">${c.year}</span>
+          <span class="meta-chip">${c.theme}</span>
+        </div>
+        <div class="conn-footer">${footer}</div>
+      </div>`;
+  }
+
+  /* ── Render grouped cards ── */
+  function renderCards(dim) {
+    const list = document.getElementById('cardList');
+    let html = '';
+
+    /* Build groups for available connections */
+    const avGroups = new Map();
+    CONNECTIONS.filter(c => c.available).forEach(c => {
+      (c[dim] || []).forEach(key => {
+        if (!avGroups.has(key)) avGroups.set(key, []);
+        avGroups.get(key).push(c);
+      });
+    });
+
+    /* Build groups for unavailable connections */
+    const unGroups = new Map();
+    CONNECTIONS.filter(c => !c.available).forEach(c => {
+      (c[dim] || []).forEach(key => {
+        if (!unGroups.has(key)) unGroups.set(key, []);
+        unGroups.get(key).push(c);
+      });
+    });
+
+    /* Render available section */
+    avGroups.forEach((cards, key) => {
+      html += `<div class="group-head">${key}</div>`;
+      cards.forEach(c => { html += cardHtml(c); });
+    });
+
+    /* Render unavailable section */
+    if (unGroups.size > 0) {
+      html += `<div class="unavail-divider">Not in your license</div>`;
+      unGroups.forEach((cards, key) => {
+        html += `<div class="group-head">${key}</div>`;
+        cards.forEach(c => { html += cardHtml(c); });
+      });
+    }
+
+    list.innerHTML = html;
+  }
+
+  /* ── Init ── */
+  document.getElementById('countTopics').textContent = countGroups('topics');
+  document.getElementById('countGoals').textContent  = countGroups('goals');
+  renderCards('topics');
+</script>
